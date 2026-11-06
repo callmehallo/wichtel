@@ -98,8 +98,12 @@ def build_message(giver: Participant, link: str, config: Config) -> str:
 def whatsapp_url(phone: str, text: str, use_web: bool) -> str:
     query = urllib.parse.urlencode({"phone": phone, "text": text}, quote_via=urllib.parse.quote)
     if use_web:
-        return f"https://api.whatsapp.com/send?{query}"
+        return f"https://web.whatsapp.com/send?{query}"
     return f"whatsapp://send?{query}"
+
+
+def whatsapp_app_installed() -> bool:
+    return Path("/Applications/WhatsApp.app").exists()
 
 
 def open_url(url: str) -> None:
@@ -133,7 +137,7 @@ def send_interactively(messages: list[tuple[Participant, str]], use_web: bool) -
 def main() -> None:
     parser = argparse.ArgumentParser(description="Wichtel auslosen und per WhatsApp verschicken.")
     parser.add_argument("config", type=Path, nargs="?", default=Path("teilnehmer.toml"))
-    parser.add_argument("--web", action="store_true", help="WhatsApp Web statt der Desktop-App öffnen")
+    parser.add_argument("--web", action="store_true", help="WhatsApp Web erzwingen (passiert automatisch, wenn die Desktop-App fehlt)")
     parser.add_argument("--check", action="store_true", help="Nur prüfen, ob eine Auslosung möglich ist – nichts öffnen")
     args = parser.parse_args()
 
@@ -145,7 +149,7 @@ def main() -> None:
         return
     print("Achtung: Jeder neue Start lost neu aus. Einmal komplett durchziehen!\n")
     input("Enter zum Starten …")
-    send_interactively(messages, args.web)
+    send_interactively(messages, args.web or not whatsapp_app_installed())
 
 
 if __name__ == "__main__":
