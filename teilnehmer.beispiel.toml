@@ -1,0 +1,29 @@
+budget = "50 €"
+datum = "24.12."
+reveal_url = "https://callmehallo.github.io/wichtel/"
+
+# Telefonnummern: +49…, 0049… oder 0170… (wird als deutsche Nummer gelesen)
+paare = [
+  ["Anna", "Max"],
+  ["Lena", "Tom"],
+]
+
+[[teilnehmer]]
+name = "Anna"
+telefon = "+49 170 1111111"
+
+[[teilnehmer]]
+name = "Max"
+telefon = "0170 2222222"
+
+[[teilnehmer]]
+name = "Lena"
+telefon = "+49 170 3333333"
+
+[[teilnehmer]]
+name = "Tom"
+telefon = "+49 170 4444444"
+
+[[teilnehmer]]
+name = "Sophie"
+telefon = "+49 170 5555555"
